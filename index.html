@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Galeria kotów</title>
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+    <body>
+        <h1>Galeria kotów!</h1>
+        <ul class="gallery">
+            <li class="thumbnail">
+                <img src="images/1.jpg" tabindex="0" alt="" />
+            </li>
+            <li class="thumbnail">
+                <img src="images/2.jpg" tabindex="0" alt="" />
+            </li>
+            <li class="thumbnail">
+                <img src="images/3.jpg" tabindex="0" alt="" />
+            </li>
+            <li class="thumbnail">
+                <img src="images/4.jpg" tabindex="0" alt="" />
+            </li>
+            <li class="thumbnail">
+                <img src="images/5.jpg" tabindex="0" alt="" />
+            </li>
+            <li class="thumbnail">
+                <img src="images/6.jpg" tabindex="0" alt="" />
+            </li>
+            <li class="thumbnail">
+                <img src="images/7.jpg" tabindex="0" alt="" />
+            </li>
+            <li class="thumbnail">
+                <img src="images/8.jpg" tabindex="0" alt="" />
+            </li>
+            <li class="thumbnail">
+                <img src="images/9.jpg" tabindex="0" alt="" />
+            </li>
+            <li class="thumbnail">
+                <img src="images/10.jpg" tabindex="0" alt="" />
+            </li>
+        </ul>
+        <div class="popup hidden">
+            <button class="popup__close" aria-label="Zamknij podgląd">
+                &#10005;
+            </button>
+            <div class="popup__content">
+                <button class="popup__arrow popup__arrow--left"><</button>
+                <button class="popup__arrow popup__arrow--right">></button>
+                <p class="popup__info">
+                    Zdjęcie
+                    <span class="popup__current"></span>/<span
+                        class="popup__amount"
+                    ></span>
+                </p>
+                <img src="images/1.jpg" alt="" />
+            </div>
+        </div>
+        <script src="app.js"></script>
+    </body>
+</html>
