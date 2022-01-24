@@ -1,27 +1,28 @@
 const THUMBNAILS = document.querySelectorAll(".thumbnail img");
 const POPUP = document.querySelector(".popup");
-const POPUP_IMG = POPUP.querySelector("img");
 const POPUP_CLOSE = document.querySelector(".popup__close");
-const POPUP_AMOUNT = document.querySelector(".popup__amount");
-const POPUP_CURRENT = document.querySelector(".popup__current");
+const POPUP_IMG = document.querySelector(".popup__img");
 const ARROW_LEFT = document.querySelector(".popup__arrow--left");
 const ARROW_RIGHT = document.querySelector(".popup__arrow--right");
 
-const updatePopup = () => {
-    POPUP_IMG.src = THUMBNAILS[currentIndex].src;
-    POPUP_CURRENT.innerText = currentIndex + 1;
+let currentImgIndex;
+
+const showNextImg = () => {
+    if (currentImgIndex === THUMBNAILS.length - 1) {
+        currentImgIndex = 0;
+    } else {
+        currentImgIndex++;
+    }
+    POPUP_IMG.src = THUMBNAILS[currentImgIndex].src;
 };
 
-const showNextImage = () => {
-    currentIndex =
-        currentIndex !== THUMBNAILS.length - 1 ? currentIndex + 1 : 0;
-    updatePopup();
-};
-
-const showPreviousImage = () => {
-    currentIndex =
-        currentIndex !== 0 ? currentIndex - 1 : THUMBNAILS.length - 1;
-    updatePopup();
+const showPreviousImg = () => {
+    if (currentImgIndex === 0) {
+        currentImgIndex = THUMBNAILS.length - 1;
+    } else {
+        currentImgIndex--;
+    }
+    POPUP_IMG.src = THUMBNAILS[currentImgIndex].src;
 };
 
 const closePopup = () => {
@@ -29,56 +30,55 @@ const closePopup = () => {
     setTimeout(() => {
         POPUP.classList.add("hidden");
         POPUP.classList.remove("fade-out");
-        POPUP_IMG.src = "";
-    }, 200);
+        THUMBNAILS.forEach((element) => {
+            element.setAttribute("tabindex", 1);
+        });
+    }, 300);
 };
 
-let currentIndex;
-
-POPUP_AMOUNT.innerText = THUMBNAILS.length;
-
 THUMBNAILS.forEach((thumbnail, index) => {
-    thumbnail.addEventListener("click", (e) => {
-        currentIndex = index;
+    const showPopup = (e) => {
         POPUP.classList.remove("hidden");
         POPUP_IMG.src = e.target.src;
-        POPUP_CURRENT.innerText = currentIndex + 1;
-    });
+        currentImgIndex = index;
+        THUMBNAILS.forEach((element) => {
+            element.setAttribute("tabindex", -1);
+        });
+    };
+
+    thumbnail.addEventListener("click", showPopup);
+
     thumbnail.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
-            currentIndex = index;
-            POPUP.classList.remove("hidden");
-            POPUP_IMG.src = e.target.src;
-            POPUP_CURRENT.innerText = currentIndex + 1;
+        if (e.code === "Enter" || e.keyCode === 13) {
+            showPopup(e);
         }
     });
 });
 
 POPUP_CLOSE.addEventListener("click", closePopup);
-ARROW_RIGHT.addEventListener("click", showNextImage);
-ARROW_LEFT.addEventListener("click", showPreviousImage);
-POPUP.addEventListener("click", (e) => {
-    if (e.target === POPUP) {
-        closePopup();
-    }
-});
+
+ARROW_RIGHT.addEventListener("click", showNextImg);
+
+ARROW_LEFT.addEventListener("click", showPreviousImg);
 
 document.addEventListener("keydown", (e) => {
     if (!POPUP.classList.contains("hidden")) {
-        if (e.key === "ArrowLeft") {
-            showPreviousImage();
-        }
-        if (e.key === "ArrowRight") {
-            showNextImage();
+        if (e.code === "ArrowRight" || e.keyCode === 39) {
+            showNextImg();
         }
 
-        if (e.key === "Escape") {
+        if (e.code === "ArrowLeft" || e.keyCode === 37) {
+            showPreviousImg();
+        }
+
+        if (e.code === "Escape" || e.keyCode === 27) {
             closePopup();
         }
     }
 });
 
-// box shadow na zdj
-// tlo
-// napis
-// focus
+POPUP.addEventListener("click", (e) => {
+    if (e.target === POPUP) {
+        closePopup();
+    }
+});
